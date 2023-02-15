@@ -1,0 +1,40 @@
+/*  Media quiery for mobile*/
+@media (max-width: 768px) {
+
+    html {
+        font-size: 14px;
+    }
+
+    nav {
+        padding: var(--sm) var(--md);
+    }
+
+    nav #logo {
+        box-shadow: none;
+        padding: 0;
+        margin-right: var(--xxs);
+    }
+
+    nav #logo img {
+        filter: drop-shadow(1px 1px 1px var(--clr-accent));
+    }
+
+    nav #logo h6 {
+        display: none;
+    }
+
+    #main {
+        flex: 1;
+        height: 100%;
+        padding: var(--xxs) var(--xxs);
+    }
+
+    #list {
+        height: 100vh;
+    }
+
+    .card {
+        width: 80vw;
+
+    }
+}

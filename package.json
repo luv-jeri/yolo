@@ -1,0 +1,17 @@
+{
+  "name": "yolo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init": "npm install && cd yolo_server && npm install && cd .. && cd yolo_frontend && npm install && cd ..",
+    "dev": "concurrently \"cd yolo_server && npm run dev\" \"cd yolo_frontend && npm run dev\"",
+    "start" : "cd yolo_frontend && npm run build && cd .. && concurrently \"cd yolo_server && npm run start\" \"cd yolo_frontend && npm run preview\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
