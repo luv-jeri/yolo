@@ -34,7 +34,7 @@ module.exports.create = catcher(async (req, res, next) => {
 });
 
 module.exports.lookup = catcher(async (req, res, next) => {
-  const { search, type, age, fee } = req.query;
+  const { search, type, age, fee, limit } = req.query;
 
   const aggregate = [
     {

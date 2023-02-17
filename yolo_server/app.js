@@ -9,12 +9,7 @@ const morgan = require('morgan');
 const _Error = require('./lib/utils/_error');
 const app = express();
 
-const origin = [
-  'http://localhost:3000/',
-  'http://localhost:3000',
-  'https://pikmi-client.vercel.app/',
-  'https://pikmi-client.vercel.app',
-];
+const origin = ['http://localhost:5173', 'http://localhost:5173/'];
 
 app.use(
   cors({

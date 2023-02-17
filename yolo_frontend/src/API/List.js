@@ -13,10 +13,19 @@ class List {
 
     this.onEnd = onEnd;
     this.onScroll = onScroll;
-    this.observers = [this.render.bind(this)];
+    this.observers = [this._render.bind(this)];
     this.data = init ? this.initialize(init) : [];
 
     this._appendLoader(this.target);
+
+    this.updater = (data) => {
+      this.target.innerHTML = '';
+      // scroll to top
+      this.target.scrollTop = 0;
+      
+      this.data = data;
+      this._fire();
+    };
 
     if (onEnd) {
       this.onEnd = onEnd;
@@ -28,7 +37,7 @@ class List {
       return this._onLoad();
     }
 
-    this.render();
+    this._render();
   }
 
   _appendLoader = (el) => {
@@ -50,7 +59,7 @@ class List {
 
     if (data) {
       if (!Array.isArray(data)) {
-        throw new Error('onLoad does not return an array');
+        throw new Error('Data does not return an array');
       }
       cb && cb(data);
       return (this.data = data);
@@ -100,39 +109,29 @@ class List {
     this.observers.forEach((observer) => observer(this.data));
   };
 
-  _onLoad = async () => {
-    const data = await this._callFunction(this.onLoad);
-    this.render(data);
+  _onLoad = () => {
+    const promise = this._callFunction(this.onLoad);
+    promise.then((data) => {
+      this._render(data);
+    });
   };
 
-  _onEnd = async () => {
-    this.target.addEventListener('scroll', async (event) => {
+  _onEnd = () => {
+    this.target.addEventListener('scroll', async () => {
       const { scrollTop, scrollHeight, clientHeight } = this.target;
 
       const isAtEnd = scrollTop + clientHeight >= scrollHeight - 1000;
 
       if (isAtEnd) {
         const data = await this._callFunction(this.onEnd);
-        console.log('data', data);
+
         this.data = [...this.data, ...data];
         this._appendElements(data);
       }
     });
   };
 
-  set list_data(data) {
-    if (!Array.isArray(data)) {
-      throw new Error('Data is not an array');
-    }
-    this._data = data;
-    this._fire();
-  }
-
-  fire() {
-    this.observers.forEach((observer) => observer(this.data));
-  }
-
-  render(_data, _target) {
+  _render(_data, _target) {
     console.log('rendering list', this.target, _target);
     const data = _data || this.data;
     const target = _target || this.target;
